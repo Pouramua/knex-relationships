@@ -4,31 +4,30 @@ var knex = require('knex')
 var db = require('../db')
 
 module.exports = {
-  get: get,
-  getProfile: getProfile,
+  getParents: getParents,
+  getParent: getParent,
   newUserForm: newUserForm,
   saveForm: saveForm
-
 }
 
-function get (req, res) {
-  db.getUsers()
-    .then(function (users) {
-      res.render('index', { users: users })
+function getParents (req, res) {
+  db.getParents()
+    .then(function (parents) {
+      res.render('index', { parents: parents })
     })
     .catch(function (err) {
       res.status(500).send('DATABASE ERROR: ' + err.message)
     })
 }
 
-function getProfile (req, res) {
+function getParent (req, res) {
   var id = req.params.id
 
-  db.getUser(id)
-    .join('profile', 'users.id', '=', 'profile.user_id')
-    .select('users.id', 'users.name', 'users.email', 'profile.star_sign')
+  db.getParent(id)
+    .join('profile', 'parents.id', '=', 'profile.user_id')
+    .select('parents.id', 'parents.name', 'parents.email', 'profile.star_sign')
     .then(function (profile) {
-      res.render('profile', {users: profile})
+      res.render('profile', {parents: profile})
     })
   .catch(function (err) {
     res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -43,7 +42,3 @@ function saveForm (req, res) {
   var details = req.body
   res.render('newUserForm', details)
 }
-// function saveForm (req, res) {
-//   res.render('newUserForm', details)
-//   .insert('users' details)
-// }

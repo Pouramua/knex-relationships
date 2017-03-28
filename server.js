@@ -1,5 +1,4 @@
 var path = require('path')
-
 var express = require('express')
 var bodyParser = require('body-parser')
 var hbs = require('express-handlebars')
@@ -19,7 +18,7 @@ server.use(bodyParser.urlencoded({ extended: true }))
 
 // Routes
 
-server.get('/', index.get)
-server.get('/profile/:id', index.getProfile)
+server.get('/', index.getParents)
+server.get('/profile/:id', index.getParent)
 server.get('/user/new', index.newUserForm)
 server.post('/user/new', index.saveForm)
